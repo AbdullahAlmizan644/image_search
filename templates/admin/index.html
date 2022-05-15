@@ -1,0 +1,98 @@
+{% extends "admin/base.html"%}
+{% block title %}Index{% endblock %}
+{% block head %}
+{{super()}}
+<style>
+
+</style>
+
+{% endblock %}
+{% block content %}
+
+        <!-- Container Fluid-->
+        <div class="container-fluid" id="container-wrapper">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="./">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            </ol>
+          </div>
+
+          <div class="row mb-3">
+            <!-- New User Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-uppercase mb-1"> User</div>
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{total_users[0]}}</div>
+
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-users fa-2x text-info"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-uppercase mb-1">person Data</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_persons[0]}}</div>
+
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-users fa-2x text-warning"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Invoice Example -->
+            <div class="col-xl-12 col-lg-7 mb-4">
+              <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">User Table</h6>
+                  <!-- <a class="m-0 float-right btn btn-danger btn-sm" href="#">View More <i
+                      class="fas fa-chevron-right"></i></a> -->
+                </div>
+                <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>User Id</th>
+                        <th>name</th>
+                        <th>email</th>
+                        <th>date</th>
+                        <th>block</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for user in users %}
+                      <tr>
+                        <td><a href="#">{{user.0}}</a></td>
+                        <td>{{user.1}}</td>
+                        <td>{{user.2}}</td>
+                        <td><span class="badge badge-success">{{user.5}}</span></td>
+                        <td><a href="/delete_user/{{user.0}}" class="btn btn-sm btn-primary">Block</a></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="card-footer"></div>
+              </div>
+            </div>
+            
+
+        </div>
+        <!---Container Fluid-->
+      </div>
+      <!-- Footer -->
+{% endblock %}

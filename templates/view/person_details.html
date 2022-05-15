@@ -1,0 +1,53 @@
+{% extends "view/base.html"%}
+{%block title%} Person Deatils {% endblock %}
+{% block head %}
+{{super()}}
+<style>
+    body {
+        background: #007bff;
+        background: linear-gradient(to right, #0062E6, #33AEFF);
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<div style="margin: 100px;">
+
+</div>
+
+<div class="container">
+
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">Person Image
+      <!-- <small>Secondary Text</small> -->
+    </h1>
+  
+    <!-- Portfolio Item Row -->
+    <div class="row">
+  
+      <div class="col-md-8">
+        {% set img="image/" + result.3 %}
+        <img class="img-fluid" src={{url_for("static", filename=img)}} alt="">
+      </div>
+  
+      <div class="col-md-4">
+        <h3 class="my-3">Person Deatils</h3>
+        <h2 class="my-3" >Name: <span style="color: white;">{{result.1}}</span></h2>
+        <h2 class="my-3">Details:</h2>
+        {{result.2|safe}}
+        <!-- <h3 class="my-3">Project Details</h3>
+        <ul>
+          <li>Lorem Ipsum</li>
+          <li>Dolor Sit Amet</li>
+          <li>Consectetur</li>
+          <li>Adipiscing Elit</li>
+        </ul> -->
+      </div>
+  
+    </div>
+
+  </div>
+
+  <div style="margin: 200px;"></div>
+
+{% endblock %}

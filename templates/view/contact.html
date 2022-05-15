@@ -1,0 +1,53 @@
+{% extends "view/base.html"%}
+{%block title%} Contact {% endblock %}
+{% block head %}
+{{super()}}
+<style>
+    body {
+        background: #007bff;
+        background: linear-gradient(to right, #0062E6, #33AEFF);
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<div style="margin: 200px;">
+
+</div>
+<div class="container px-5 my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 rounded-3 shadow-lg">
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <div class="h1 fw-light">Contact With US</div>
+                        <p class="mb-4 text-muted">any kind of problem contact with us!</p>
+                    </div>
+                    <form id="contact" action="/contact" method="post">
+
+                        <!-- Message Input -->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" name="message" id="message" type="text" placeholder="Message"
+                                style="height: 10rem;" data-sb-validations="required"></textarea>
+                            <label for="message">Message</label>
+                            <div class="invalid-feedback" data-sb-feedback="message:required">Message is required.</div>
+                        </div>
+                        
+                        <!-- Submit button -->
+                        <div class="d-grid">
+                            <button form="contact" class="btn btn-primary btn-lg " id="submitButton"
+                                type="submit">Submit</button>
+                        </div>
+                    </form>
+                    <!-- End of contact form -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="margin: 200px;"></div>
+
+{% endblock %}
