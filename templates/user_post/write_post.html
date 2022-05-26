@@ -1,0 +1,35 @@
+{% extends "view/base.html"%}
+{% block title %}write post{% endblock %}
+{% block head %}
+{{super()}}
+<style>
+
+</style>
+
+{% endblock %}
+{% block content %}
+
+{{ ckeditor.load() }}
+
+<div style="margin-top: 100px;"></div>
+<div class="container">
+    <h1 style="text-align: center; color: aliceblue;">Write Missing post</h1><br>
+    <form action="/write_post" method="post" id="person" enctype="multipart/form-data">
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile01">Upload missing people image</label>
+            <input type="file" name="image" class="form-control" id="inputGroupFile01">
+        </div>
+        <div class="mb-3">
+            <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Missing person name">
+          </div>
+        {{ ckeditor.create() }}
+        <br>
+        <div class="d-grid gap-2">
+            <button class="btn btn-success" type="submit" form="person">Post</button>
+          </div>
+    </form>
+</div>
+
+<div style="margin-top: 200px;"></div>
+
+{% endblock %}

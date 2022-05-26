@@ -44,7 +44,7 @@
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                         <!-- <div class="text-xs font-weight-bold text-uppercase mb-1">person Data</div> -->
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="/add_person"><button class="btn btn-primary" > Add person</button></a></div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="/add_person"><button class="btn btn-primary" > Add post</button></a></div>
 
                       </div>
                       <div class="col-auto">
@@ -59,7 +59,7 @@
             <div class="col-xl-12 col-lg-7 mb-4">
               <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Person Table</h6>
+                  <h6 class="m-0 font-weight-bold text-primary"> User post table</h6>
                   <!-- <a class="m-0 float-right btn btn-danger btn-sm" href="#">View More <i
                       class="fas fa-chevron-right"></i></a> -->
                 </div>
@@ -72,6 +72,7 @@
                         <th>address</th>
                         <th>image</th>
                         <th>date</th>
+                        <th>edit</th>
                         <th>Delete</th>
                       </tr>
                     </thead>
@@ -83,6 +84,7 @@
                         <td>{{ person.2[0:100]}}</td>
                         <td>{{ person.3 }}</td>
                         <td>{{ person.4 }}</td>
+                        <td><a href="/edit_person/{{person.0}}" class="btn btn-sm btn-success">Edit</a></td>
                         <td><a href="/delete_person/{{person.0}}" class="btn btn-sm btn-danger">Delete</a></td>
                       </tr>
                       {% endfor %}

@@ -9,8 +9,10 @@ from flask_mail import Mail,Message
 from random import randint
 from flask_ckeditor import CKEditor
 
+
 app=Flask(__name__)
 ckeditor = CKEditor(app)
+
 
 db = MySQL(app)
 UPLOAD_FOLDER = '/home/zeus/image_recognition/static/image'
@@ -23,12 +25,13 @@ app.config['MYSQL_PASSWORD']=''
 app.config['MYSQL_DB']='image_recognition'
 
 
+
 app.config["MAIL_SERVER"]='smtp.gmail.com' 
 app.config["MAIL_PORT"] = 465
 app.config['MAIL_USE_TLS'] = False  
 app.config['MAIL_USE_SSL'] = True  
-app.config["MAIL_USERNAME"] = 'admin@gmail.com'  
-app.config['MAIL_PASSWORD'] = '12345678'  
+app.config["MAIL_USERNAME"] = 'abdullahalmizan644@gmail.com'  
+app.config['MAIL_PASSWORD'] = 'mizan52554'  
 
 mail=Mail(app)
 otp = randint(000000,999999)
@@ -237,12 +240,6 @@ def profile():
 
 
 
-
-
-
-
-
-
 #admin
 @app.route("/admin_login",methods=["GET","POST"])
 def admin_login():
@@ -342,12 +339,32 @@ def add_person():
             else:
                 image.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(image.filename)))
                 cur=db.connection.cursor()
-                cur.execute("INSERT INTO person(name,address,image,date) VALUES (%s,%s,%s,%s)",(name,address,image.filename,datetime.now()))
+                cur.execute("INSERT INTO person(name,address,image,date,writer) VALUES (%s,%s,%s,%s,%s)",(name,address,image.filename,datetime.now(),"admin",))
                 db.connection.commit()
                 flash("person  added successfully!",category="success")
                 return redirect("/person_data")
     
         return render_template("admin/add_person.html")
+    else:
+        return redirect("/admin_login")
+    
+
+@app.route("/edit_person/<int:id>",methods=["GET","POST"])
+def edit_person(id):
+    if "admin" in session:
+        cur=db.connection.cursor()  
+        cur.execute("SELECT * FROM person WHERE sno=%s",(id,))
+        post=cur.fetchone()
+        if request.method=="POST":
+            address=request.form.get("ckeditor")
+
+            cur=db.connection.cursor()
+            cur.execute("UPDATE person set address=%s where sno=%s",(address,id,))
+            db.connection.commit()
+            flash("Edit user post",category="success")
+            return redirect("/person_data")
+    
+        return render_template("admin/edit_person.html",post=post)
     else:
         return redirect("/admin_login")
     
@@ -367,6 +384,8 @@ def delete_person(id):
 
 
 
+
+
 @app.route("/admin_logout")
 def admin_logout():
     session.pop("admin",None)
@@ -375,7 +394,72 @@ def admin_logout():
 
 
 
+@app.route("/write_post",methods=["GET","POST"])
+def write_post():
+    if "user" in session:
+        if request.method=="POST":
+            name=request.form.get("name")
+            address=request.form.get("ckeditor")
+            image = request.files['image']
 
+            if image.filename == '':
+                flash('No selected file', category="error")
+                return redirect(request.url)
+            else:
+                image.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(image.filename)))
+                cur=db.connection.cursor()
+                cur.execute("INSERT INTO person(name,address,image,date,writer) VALUES (%s,%s,%s,%s,%s)",(name,address,image.filename,datetime.now(),session["user"],))
+                db.connection.commit()
+                flash("post  added successfully!",category="success")
+                return redirect("/")
+    
+        return render_template("user_post/write_post.html")
+    else:
+        return redirect("/login")
+
+
+
+@app.route("/user_post")
+def user_post():
+    cur=db.connection.cursor()
+    cur.execute("SELECT * FROM person")
+    posts=cur.fetchall()
+    return render_template("user_post/blog.html",posts=posts)
+
+
+
+
+
+@app.route("/post_details/<int:id>", methods=["GET","POST"])
+def post_details(id):
+    if "user" in session:
+        cur=db.connection.cursor()
+        cur.execute("SELECT * FROM person where sno=%s",(id,))
+        post=cur.fetchone()
+
+        cur=db.connection.cursor()
+        cur.execute("SELECT * FROM users where name=%s",(session["user"],))
+        user=cur.fetchone()
+
+        cur=db.connection.cursor()
+        cur.execute("SELECT * FROM comment where post_id=%s",(id,))
+        comments=cur.fetchall()
+
+        if request.method=="POST":
+            comment=request.form.get("comment")
+
+            cur=db.connection.cursor()
+            cur.execute("INSERT INTO comment(writer,image,comment,post_id,date) VALUES (%s,%s,%s,%s,%s)",(user[1],user[3],comment,id,datetime.now(),))
+            db.connection.commit()
+            flash("comment post",category="success")
+            return redirect(request.url)
+
+        return render_template("user_post/blog_details.html",post=post,comments=comments)
+    
+    else:
+        return redirect("/login")
+
+    
 
 if __name__=="__main__":
     app.run(debug=True)

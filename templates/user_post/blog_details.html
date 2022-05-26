@@ -1,0 +1,72 @@
+{% extends "view/base.html"%}
+{%block title%} Post Deatils {% endblock %}
+{% block head %}
+{{super()}}
+<style>
+    body {
+        background: #007bff;
+        background: linear-gradient(to right, #0062E6, #33AEFF);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Post content-->
+            <article>
+                <!-- Post header-->
+                <header class="mb-4">
+                    <!-- Post title-->
+                    <h1 class="fw-bolder mb-1">{{post.1}}</h1>
+                    <!-- Post meta content-->
+                    <div class="fst-italic mb-2" style="color: aliceblue;">Posted on {{ post.4}} by {{post.5}}</div>
+                </header>
+                <!-- Preview image figure-->
+                {% set img="image/" + post.3 %}
+                <figure class="mb-4"><img class="img-fluid rounded" src={{url_for("static", filename=img)}} alt="..." />
+                </figure>
+                <!-- Post content-->
+                <section class="mb-5">
+                    {{ post.2|safe }}
+                </section>
+            </article>
+            <!-- Comments section-->
+            <section class="mb-5">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <!-- Comment form-->
+                        <form class="mb-4" action="/post_details/{{post.0}}" method="post" id="comment">
+                            <textarea class="form-control" name="comment" rows="3" placeholder="Comment"></textarea>
+                        </form>
+
+                        <button form="comment"
+                            style="background-color: royalblue; border:none; color: white; border-radius: 8px;">comment</button>
+                        </form>
+                        <br><br>
+                        <!-- Single comment-->
+                        {% for comment in comments %}
+                        <div class="d-flex">
+                            
+                            <div class="flex-shrink-0"><img class="rounded-circle"
+                                    src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                            <div class="ms-3">
+                                
+                                <div class="fw-bold">{{ comment.1 }}</div>
+                               {{ comment.3 }}
+                            </div>
+                        </div>
+                        <br>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
